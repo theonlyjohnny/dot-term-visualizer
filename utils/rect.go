@@ -2,8 +2,6 @@ package utils
 
 import (
 	"math"
-	"strconv"
-	"strings"
 )
 
 type rect interface {
@@ -19,7 +17,7 @@ func (r *termRect) getRect() (float64, float64, float64, float64) {
 }
 
 func (r *termRect) getRoundedRectSlice() [4]int {
-	return [4]int{int(math.Round(r[0])), int(math.Round(r[1])), int(math.Round(r[2])), int(math.Round(r[3]))}
+	return [4]int{round(r[0]), round(r[1]), round(r[2]), round(r[3])}
 }
 
 func (r *ptRect) getRect() (float64, float64, float64, float64) {
@@ -27,7 +25,7 @@ func (r *ptRect) getRect() (float64, float64, float64, float64) {
 }
 
 func (r *ptRect) getRoundedRectSlice() [4]int {
-	return [4]int{int(math.Round(r[0])), int(math.Round(r[1])), int(math.Round(r[2])), int(math.Round(r[3]))}
+	return [4]int{round(r[0]), round(r[1]), round(r[2]), round(r[3])}
 }
 
 func getTermRectFromPtRect(input *ptRect) termRect {
@@ -47,19 +45,8 @@ func getTermRectFromPtRect(input *ptRect) termRect {
 }
 
 func getPtRectFromCommaString(v string) ptRect {
-	split := strings.Split(strings.Trim(v, "\""), ",")
-	var value ptRect
-	for i, str := range split[:4] {
-		var err error
-		var float float64
-		float, err = strconv.ParseFloat(str, 64)
-		value[i] = float
-		if err != nil {
-			log.Errorf("couldnt parse int out of comma seperated string: value: %s error: %s", str, err.Error())
-		}
-	}
-
-	return value
+	floats := getFloatsFromCommaString(v)
+	return ptRect{floats[0], floats[1], floats[2], floats[3]}
 }
 
 func scaleUp(rect *termRect) {

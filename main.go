@@ -93,8 +93,8 @@ func renderGraph(graph *ast.Graph) error {
 		case ast.GraphAttrs:
 			attrsMap := ast.AttrList(attrs).GetMap()
 			addGraphAttrs(view, attrsMap)
-		case ast.NodeStmt:
-			addNodeStmt(view, attrs)
+		// case ast.NodeStmt:
+		// addNodeStmt(view, attrs)
 		default:
 			log.Warnf("Unknown statement type: %#v", stmt)
 		}

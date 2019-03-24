@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	monitorWidthIn  = 32
-	aspectRatio     = 21.0 / 9.0
+	monitorWidthIn  = 20
+	aspectRatio     = 6.0 / 9.0
 	monitorHeightIn = float64(monitorWidthIn / aspectRatio)
 	ptPerInch       = 1.0 / 72.0
 )
@@ -43,4 +43,23 @@ func GetRectFromCommaString(v string) [4]int {
 	termRect := getTermRectFromPtRect(&ptsRect)
 	scaleUp(&termRect)
 	return termRect.getRoundedRectSlice()
+}
+
+func GetRowsFromInchString(v string) int {
+	float := getFloatsFromCommaString(v)[0]
+	return round(inchesToRows(float))
+}
+
+func GetColumnsFromInchString(v string) int {
+	float := getFloatsFromCommaString(v)[0]
+	return round(inchesToColumns(float))
+}
+
+func GetPosFromPosString(v string) (int, int) {
+	var row, column int
+	// floats := getFloatsFromCommaString(v)
+	// row = round(
+
+	return row, column
+
 }
