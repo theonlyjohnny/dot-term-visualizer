@@ -72,7 +72,7 @@ func getMap(input interface{}) (*map[string]string, error) {
 	return &attrMap, nil
 }
 
-func addGraphAttrs(view *tview.Box, attrsMap map[string]string) error {
+func addGraphAttrs(view *tview.Grid, attrsMap map[string]string) {
 	for k, v := range attrsMap {
 		if k == "bb" {
 			rect := utils.GetRectFromCommaString(v)
@@ -81,24 +81,49 @@ func addGraphAttrs(view *tview.Box, attrsMap map[string]string) error {
 			log.Debugf("attr def: %v", v)
 
 			view.SetRect(rect[0], rect[1], rect[2], rect[3])
+		} else {
+			log.Warnf("Unknown key %s for GraphAttrs", k)
 		}
 	}
-	return nil
+}
+
+func addNodeStmt(grid *tview.Grid, stmt *ast.NodeStmt) *tview.Grid {
+	nodeID := stmt.NodeID.String()
+	var row, column, rowSpan, colSpan int
+	attrsMap := stmt.Attrs.GetMap()
+	log.Debugf("attrs for node: %s", attrsMap)
+
+	for k, v := range attrsMap {
+		log.Debugf("%s of %q = %s", k, nodeID, v)
+		if k == "height" {
+			rowSpan = utils.GetRowsFromInchString(v)
+		} else if k == "width" {
+			colSpan = utils.GetColumnsFromInchString(v)
+		} else if k == "pos" {
+			// row, column := utils.GetPosFromPosString(v)
+		} else {
+			log.Warnf("Unknown key %s for NodeStmt", k)
+		}
+	}
+	node := tview.NewBox().SetBorder(true).SetTitle(nodeID)
+	log.Debugf("Adding %q node to grid @ (%d,%d)[%dx%d]", nodeID, row, column, rowSpan, colSpan)
+	return grid.AddItem(node, row, column, rowSpan, colSpan, 0, 0, false)
 }
 
 func renderGraph(graph *ast.Graph) error {
-	view := tview.NewBox().SetBorder(true).SetTitle(graph.ID.String())
+	grid := tview.NewGrid()
 	for _, stmt := range graph.StmtList {
 		switch attrs := stmt.(type) {
 		case ast.GraphAttrs:
 			attrsMap := ast.AttrList(attrs).GetMap()
-			addGraphAttrs(view, attrsMap)
-		// case ast.NodeStmt:
-		// addNodeStmt(view, attrs)
+			addGraphAttrs(grid, attrsMap)
+		case *ast.NodeStmt:
+			addNodeStmt(grid, attrs)
 		default:
 			log.Warnf("Unknown statement type: %#v", stmt)
 		}
 	}
+	view := grid.SetBorder(true).SetTitle(graph.ID.String())
 	runnable := tview.NewApplication().SetRoot(view, false)
 	log.Debug("made runnable:", runnable)
 	// return nil
