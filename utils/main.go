@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/theonlyjohnny/dotCli/logger"
+	"github.com/theonlyjohnny/dot-term-visualizer/logger"
 	terminaldimensions "github.com/wayneashleyberry/terminal-dimensions"
 )
 

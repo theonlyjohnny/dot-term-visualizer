@@ -13,7 +13,7 @@ var (
 func init() {
 	var err error
 	config := jogger.Config{
-		AppName:    "dotcli",
+		AppName:    "dot-term-visualizer",
 		LogLevel:   "debug",
 		LogConsole: true,
 		LogSyslog:  nil,

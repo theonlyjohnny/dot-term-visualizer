@@ -9,8 +9,8 @@ import (
 	"github.com/awalterschulze/gographviz"
 	"github.com/awalterschulze/gographviz/ast"
 	"github.com/rivo/tview"
-	"github.com/theonlyjohnny/dotCli/logger"
-	"github.com/theonlyjohnny/dotCli/utils"
+	"github.com/theonlyjohnny/dot-term-visualizer/logger"
+	"github.com/theonlyjohnny/dot-term-visualizer/utils"
 )
 
 var (
