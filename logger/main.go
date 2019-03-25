@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	//Log is a shared Log instance across the project for debug logging
 	Log *jogger.Logger
 )
 
@@ -22,5 +23,4 @@ func init() {
 	if err != nil {
 		panic(fmt.Sprintf("Could not get logger: %s", err.Error()))
 	}
-
 }

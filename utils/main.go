@@ -37,29 +37,3 @@ func init() {
 	rowPerInch = maxRows / monitorHeightIn
 	log.Debugf("colPerInch: %v, rowPerInch: %v, ptPerInch: %v, maxColumns: %v, maxRows: %v, monitorHeightIn: %v, monitorWidthIn: %v", colPerInch, rowPerInch, ptPerInch, maxColumns, maxRows, monitorHeightIn, monitorWidthIn)
 }
-
-func GetRectFromCommaString(v string) [4]int {
-	ptsRect := getPtRectFromCommaString(v)
-	termRect := getTermRectFromPtRect(&ptsRect)
-	scaleUp(&termRect)
-	return termRect.getRoundedRectSlice()
-}
-
-func GetRowsFromInchString(v string) int {
-	float := getFloatsFromCommaString(v)[0]
-	return round(inchesToRows(float))
-}
-
-func GetColumnsFromInchString(v string) int {
-	float := getFloatsFromCommaString(v)[0]
-	return round(inchesToColumns(float))
-}
-
-func GetPosFromPosString(v string) (int, int) {
-	var row, column int
-	// floats := getFloatsFromCommaString(v)
-	// row = round(
-
-	return row, column
-
-}
