@@ -14,30 +14,25 @@ func inchesToRows(inches float64) float64 {
 }
 
 func columnsToInches(columns float64) float64 {
-	inches := columns / colPerInch
-	return inches
+	return columns / colPerInch
 }
 
 func rowsToInches(rows float64) float64 {
-	inches := rows / rowPerInch
-	return inches
+	return rows / rowPerInch
 }
 
 func ptToInch(pt float64) float64 {
-	inches := pt * ptPerInch
-	return inches
+	return pt * ptPerInch
 }
 
 func ptToColumns(input float64) float64 {
 	inches := ptToInch(input)
-	columns := inchesToColumns(inches)
-	return columns
+	return inchesToColumns(inches)
 }
 
 func ptToRows(input float64) float64 {
 	inches := ptToInch(input)
-	rows := inchesToRows(inches)
-	return rows
+	return inchesToRows(inches)
 }
 
 func getFloatsFromCommaString(v string) []float64 {
@@ -56,6 +51,32 @@ func getFloatsFromCommaString(v string) []float64 {
 	return value
 }
 
-func round(i float64) int {
+func getTermRectFromPtRect(input *ptRect) termRect {
+	llx, lly, urx, ury := input.getRect()
+
+	var width, height float64
+
+	ptWidth := math.Abs(llx - urx)
+	ptHeight := math.Abs(lly - ury)
+
+	width = ptToColumns(ptWidth)
+	height = ptToRows(ptHeight)
+
+	log.Infof("input: %v, lower: (%v,%v), upper: (%v,%v), ptDims: %vx%v, colRowDims: %vx%v", *input, llx, lly, urx, ury, ptWidth, ptHeight, width, height)
+
+	return termRect{llx, lly, width, height}
+}
+
+func getPtRectFromCommaString(v string) ptRect {
+	floats := getFloatsFromCommaString(v)
+	return ptRect{
+		floats[0],
+		floats[1],
+		floats[2],
+		floats[3],
+	}
+}
+
+func floatToRoundedInt(i float64) int {
 	return int(math.Round(i))
 }
