@@ -17,9 +17,6 @@ func main() {
 	graphs := parse.GetGraphsForPaths(os.Args[1:])
 
 	for _, graph := range graphs {
-		renderErr := render.Graph(graph)
-		if renderErr != nil {
-			log.Errorf("Could not render contents of %s: %s", graph, renderErr.Error())
-		}
+		render.Graph(graph)
 	}
 }

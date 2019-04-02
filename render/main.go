@@ -1,30 +1,31 @@
 package render
 
 import (
-	"github.com/awalterschulze/gographviz/ast"
-	"github.com/rivo/tview"
 	"github.com/theonlyjohnny/dot-term-visualizer/logger"
-	"github.com/theonlyjohnny/dot-term-visualizer/stmt"
-	"github.com/theonlyjohnny/dot-term-visualizer/utils"
+	"github.com/theonlyjohnny/dot-term-visualizer/visualizer"
 )
 
 var (
 	log = logger.Log
 )
 
-//Graph takes in a serialized ast.Graph and renders it into a *tview.Grid
-func Graph(graph *ast.Graph) error {
-	storage := utils.GraphStorage{}
-	grid := tview.NewGrid()
+//Graph takes in a serialized visualizer.Graph and renders it into a *tcell.Screen
+func Graph(graph *visualizer.Graph) error {
 
-	operatable := stmt.GetOperatableStmts(graph.StmtList, &storage)
-	log.Debugf("operatable: %#v", operatable)
-	for _, stmt := range operatable {
-		stmt.Act(grid)
+	exitChan := make(chan error)
+	screen, err := newScreen(exitChan)
+	if err != nil {
+		return err
 	}
-	view := grid.SetBorder(true).SetTitle(graph.ID.String())
-	application := tview.NewApplication().SetRoot(view, false)
-	log.Debug("made application:", application)
-	return nil
-	// return application.Run()
+
+	graph.Draw(screen)
+
+	for _, element := range graph.Elements {
+		element.Draw(screen)
+	}
+
+	screen.Show()
+	renderErr := <-exitChan
+	screen.Fini()
+	return renderErr
 }

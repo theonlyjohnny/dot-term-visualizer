@@ -56,18 +56,6 @@
   version = "v0.0.4"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/rivo/tview"
-  packages = ["."]
-  revision = "8d5eba0c2f51d8ae971c5a470e354bbc2aae6777"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/rivo/uniseg"
-  packages = ["."]
-  revision = "f699dde9c340bcc39b69a4c67369832af73ec72e"
-
-[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = [".","hooks/syslog"]
   revision = "dae0fa8d5b0c810a8ab733fbd5510c7cae84eca4"
@@ -106,6 +94,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d9059b65055e2037149f8f74ec21c039f9251756f426536d012ab2b24cd1409a"
+  inputs-digest = "016eb58e9c2f25f88ec73d4cfb7b235cf2b7b040a007216d414fe651ffdffa52"
   solver-name = "gps-cdcl"
   solver-version = 1
